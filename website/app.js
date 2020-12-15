@@ -22,7 +22,7 @@ function performAction(e) {
         try {
             const data = await response.json();
             console.log(data);
-            return data;
+            //  return data;
         } catch (error) {
             console.log('Error', error);
         }
@@ -35,13 +35,13 @@ function performAction(e) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(data)
         });
         try {
 
             const newData = await postRequest.json();
             console.log(newData);
-            return newData;
+            //  return newData;
         } catch (error) {
             console.log('Error', error);
         }
@@ -63,8 +63,7 @@ function performAction(e) {
 
 
 
-const updateUI = async() =>
- {
+const updateUI = async() => {
     const request = await fetch('/all');
     try {
 
@@ -74,8 +73,7 @@ const updateUI = async() =>
         document.getElementById('date').innerHTML = allData.date;
         document.getElementById('temp').innerHTML = allData.temperature;
         document.getElementById('content').innerHTML = allData.user_response;
-        } catch (error)
-    {
+    } catch (error) {
         console.log("error", error);
     }
 }
