@@ -1,7 +1,7 @@
 /* Global Variables */
 const baseURL = 'http://api.openweathermap.org/data/2.5/weather?zip=';
 const apikey = '&appid=ea792f352b45cbf73fa10d8de6b236a5';
-
+const error = '';
 // Create a new date instance dynamically with JS
 let d = new Date();
 let newDate = d.getMonth() + 1 + '.' + d.getDate() + '.' + d.getFullYear();
@@ -54,9 +54,8 @@ function performAction(e) {
 
             postData('/add', { temperature: data.main.temp, date: newDate, user_response: feelings })
                 // Function which updates UI
-                .then(function() {
-                    updateUI()
-                })
+
+            .then(() => updateUI())
         })
 }
 
@@ -64,15 +63,19 @@ function performAction(e) {
 
 
 
-const updateUI = async() => {
+const updateUI = async() =>
+ {
     const request = await fetch('/all');
     try {
 
         const allData = await request.json()
             // update new entry values
-        document.getElementById('date').innerHTML = allData[0].date;
-        document.getElementById('temp').innerHTML = allData[0].temp;
-        document.getElementById('content').innerHTML = allData[0].content;
-    } catch (erorr) { console.log(error) }
-
+        console.log(allData);
+        document.getElementById('date').innerHTML = allData.date;
+        document.getElementById('temp').innerHTML = allData.temperature;
+        document.getElementById('content').innerHTML = allData.user_response;
+        } catch (error)
+    {
+        console.log("error", error);
+    }
 }
