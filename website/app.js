@@ -1,4 +1,3 @@
-/* Global Variables */
 const baseURL = 'http://api.openweathermap.org/data/2.5/weather?zip=';
 const apikey = '&appid=ea792f352b45cbf73fa10d8de6b236a5';
 const error = '';
@@ -17,10 +16,11 @@ function performAction(e) {
 
     const getTemperature = async(baseURL, zipcode, apikey) => {
 
-        const response = await fetch(baseURL + zipcode + ',us' + apikey)
+        const response = await fetch(baseURL + zipcode + ',us' + apikey);
+        const data = await response.json();
         console.log(response);
         try {
-            const data = await response.json();
+
             console.log(data);
             //  return data;
         } catch (error) {
@@ -49,31 +49,32 @@ function performAction(e) {
 
 
     getTemperature(baseURL, zipcode, apikey)
-        .then(function(data) {
+        .then((data) =>
             // Add data to POST request
 
-            postData('/add', { temperature: data.main.temp, date: newDate, user_response: feelings })
-                // Function which updates UI
+            postData('/add', { temperature: getTemperature.data, date: newDate, user_response: feelings }))
+        // Function which updates UI
 
-            .then(() => updateUI())
-        })
-}
-
-// Async GET
+    .then(() => updateUI())
 
 
 
-const updateUI = async() => {
-    const request = await fetch('/all');
-    try {
+    // Async GET
 
-        const allData = await request.json()
-            // update new entry values
-        console.log(allData);
-        document.getElementById('date').innerHTML = allData.date;
-        document.getElementById('temp').innerHTML = allData.temperature;
-        document.getElementById('content').innerHTML = allData.user_response;
-    } catch (error) {
-        console.log("error", error);
+
+
+    const updateUI = async() => {
+        const request = await fetch('/all');
+        try {
+
+            const allData = await request.json()
+                // update new entry values
+            console.log(allData);
+            document.getElementById('date').innerHTML = allData.date;
+            document.getElementById('temp').innerHTML = allData.temperature;
+            document.getElementById('content').innerHTML = allData.user_response;
+        } catch (error) {
+            console.log("error", error);
+        }
     }
 }
