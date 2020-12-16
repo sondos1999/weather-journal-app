@@ -46,14 +46,13 @@ function performAction(a) {
         }
     }
 
-
     getdata(baseURL, zipcode, apikey)
         //post data
-        .then((data) => postData('/add', { temp: getdata.data, date: newDate, content: feelings }))
+        .then((data) => postData('/add', { temperature: getdata.data, date: newDate, content: feelings }))
         // calling function uqdate ui
         .then(() => updateUI())
-        //function to add data in gui
-
+      
+    //function to add data in gui
     const updateUI = async() => {
         const request = await fetch('/all');
         try {
