@@ -5,24 +5,23 @@ const error = '';
 let d = new Date();
 let newDate = d.getMonth() + 1 + '.' + d.getDate() + '.' + d.getFullYear();
 
-// Event listener to add function to existing HTML DOM element
+// button event lisner function
 
 document.getElementById('generate').addEventListener('click', performAction);
 
-function performAction(e) {
+function performAction(a) {
     const zipcode = document.getElementById('zip').value;
     const feelings = document.getElementById('feelings').value;
     console.log(newDate);
 
-    const getTemperature = async(baseURL, zipcode, apikey) => {
+    const getdata = async(baseURL, zipcode, apikey) => {
 
         const response = await fetch(baseURL + zipcode + ',us' + apikey);
         const data = await response.json();
         console.log(response);
         try {
-
             console.log(data);
-            //  return data;
+            return data
         } catch (error) {
             console.log('Error', error);
         }
@@ -39,29 +38,21 @@ function performAction(e) {
         });
         try {
 
-            const newData = await postRequest.json();
-            console.log(newData);
-            //  return newData;
+            const newdata = await postRequest.json();
+            console.log(newdata);
+            return newdata;
         } catch (error) {
             console.log('Error', error);
         }
     }
 
 
-    getTemperature(baseURL, zipcode, apikey)
-        .then((data) =>
-            // Add data to POST request
-
-            postData('/add', { temperature: getTemperature.data, date: newDate, user_response: feelings }))
-        // Function which updates UI
-
-    .then(() => updateUI())
-
-
-
-    // Async GET
-
-
+    getdata(baseURL, zipcode, apikey)
+        //post data
+        .then((data) => postData('/add', { temp: getdata.data, date: newDate, content: feelings }))
+        // calling function uqdate ui
+        .then(() => updateUI())
+        //function to add data in gui
 
     const updateUI = async() => {
         const request = await fetch('/all');
@@ -71,8 +62,8 @@ function performAction(e) {
                 // update new entry values
             console.log(allData);
             document.getElementById('date').innerHTML = allData.date;
-            document.getElementById('temp').innerHTML = allData.temperature;
-            document.getElementById('content').innerHTML = allData.user_response;
+            document.getElementById('temp').innerHTML = allData.temp;
+            document.getElementById('content').innerHTML = allData.content;
         } catch (error) {
             console.log("error", error);
         }
